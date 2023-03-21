@@ -24,6 +24,7 @@ function main() {
         page.setAttribute("hidden", "true");
         document.getElementById("content").appendChild(page);
     }
+    document.getElementById("0").click();
 }
 
 function navigate(element) {
