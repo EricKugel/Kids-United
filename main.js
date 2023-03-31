@@ -17,8 +17,13 @@ function main() {
         }
         nav.appendChild(link);
 
-        let page = document.createElement("iframe");
-        page.setAttribute("src", PAGES[i] + "/" + PAGES[i] + ".html");
+        let page = document.createElement("div");
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", PAGES[i] + "/" + PAGES[i] + ".html", true);
+        xhr.onreadystatechange = function() {
+            page.innerHTML = this.responseText;
+        };
+        xhr.send();
         page.setAttribute("class", "page");
         page.setAttribute("id", PAGES[i]);
         page.setAttribute("hidden", "true");
