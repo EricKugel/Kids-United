@@ -16,26 +16,9 @@ function main() {
             navigate(element);
         }
         nav.appendChild(link);
-
-        let page = document.createElement("div");
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "static/" + PAGES[i] + "/" + PAGES[i] + ".html", true);
-        xhr.onreadystatechange = function() {
-            page.innerHTML = this.responseText;
-        };
-        xhr.send();
-        page.setAttribute("class", "page");
-        page.setAttribute("id", PAGES[i]);
-        page.setAttribute("hidden", "true");
-        document.getElementById("content").appendChild(page);
     }
-    document.getElementById("0").click();
 }
 
 function navigate(element) {
-    for (var i = 0; i < PAGES.length; i += 1) {
-        document.getElementById(PAGES[i]).setAttribute("hidden", "true")
-    }
-    let page = document.getElementById(PAGES[parseInt(element.srcElement.getAttribute("id"))]);
-    page.removeAttribute("hidden");
+    window.location.replace("/" + PAGES[parseInt(element.srcElement.getAttribute("id"))].replaceAll("_", "-"));
 }
