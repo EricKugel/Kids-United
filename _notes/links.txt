@@ -1,0 +1,2 @@
+https://www.geeksforgeeks.org/how-to-create-a-meeting-with-zoom-api-in-python/
+https://hackersandslackers.com/flask-login-user-authentication/

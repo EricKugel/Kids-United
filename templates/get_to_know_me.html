@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block content %}
+<div class = "section">
+  
+  <form action = "https://kidsunited.erickugel1.repl.co/get-to-know-me", method = "post">
+    <br><br><br><br><p>Name please:  <input type = "text" name = "username"/></p><br/>
+    <p><input type = "submit" value = "submit"/></p>
+    
+  </form>
+  
+</div>
+
+<div class = "section">
+  <ul id = users>
+    
+  </ul>
+</div>
+
+<script src = "static/get_to_know_me/get_to_know_me.js"></script>
+{% endblock %}
