@@ -1,0 +1,91 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+  <div>
+    {% for message in get_flashed_messages() %}
+      <div class="alert alert-warning">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert">
+          x
+        </button>
+        {{ message }}
+      </div>
+    {% endfor %}
+
+    <h1>Sign Up</h1>
+
+    <form method="POST" action="/signup">
+      {{ form.csrf_token }}
+
+      <fieldset>
+        {{ form.name.label }}
+        {{ form.name }}
+        {% if form.name.errors %}
+          <ul class="errors">
+            {% for error in form.name.errors %}
+              <li class = "error">{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </fieldset>
+
+      <fieldset class="email">
+        {{ form.email.label }}
+        {{ form.email }}
+        {% if form.email.errors %}
+          <ul class="errors">
+            {% for error in form.email.errors %}
+              <li class = "error">{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </fieldset>
+
+      <fieldset class="password">
+        {{ form.password.label }}
+        {{ form.password }}
+        {% if form.password.errors %}
+          <ul class="errors">
+            {% for error in form.password.errors %}
+              <li class = "error">{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </fieldset>
+
+      <fieldset class="confirm">
+        {{ form.confirm.label }}
+        {{ form.confirm }}
+        {% if form.confirm.errors %}
+          <ul class="errors">
+            {% for error in form.confirm.errors %}
+              <li class = "error">{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </fieldset>
+
+      <fieldset>
+        {{ form.country.label }}
+        {{ form.country }}
+        {% if form.country.errors %}
+          <ul class="errors">
+            {% for error in form.country.errors %}
+              <li class = "error">{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </fieldset>
+
+      <div class="submit-button">
+        {{ form.submit }}
+      </div>
+
+    </form>
+
+    <div class="login-signup">
+      <div>
+        <span>Already have an account?</span>
+        <a href="{{ url_for('login') }}">Log in</a>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
