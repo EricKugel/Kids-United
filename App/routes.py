@@ -1,36 +1,28 @@
 from flask import current_app as app
-from flask import Flask, redirect, url_for, render_template, request, flash
+from flask import redirect, url_for, render_template, request, flash, make_response
 
 from flask_login import login_required, logout_user, current_user, login_user
 
+from flask_uploads import UploadSet, configure_uploads, IMAGES
+
 from . import login_manager
 
-from .models import db, User
-from.forms import SignupForm, LoginForm
+from .models import db, User, Bio, render_picture
+from .forms import SignupForm, LoginForm, BioForm, PHOTOS
 
-@app.route("/get-to-know-me", methods = ["GET", "POST"])
-def get_to_know_me():
-#   form = SignupForm()
-#   if form.validate_on_submit():
-#     username = request.form["username"]
-#     email = request.form["email"]
-#     if username and email:
-#         user_exists = User.query.filter(User.username == username or User.email == email).first()
-#         if user_exists:
-#           RuntimeError("ruh roh")
-#         new_user = User(username = username, email = email, created = dt.now(), admin = False)
-#         db.session.add(new_user)
-#         db.session.commit()
-#     return redirect(url_for("success"))
-  return render_template("get_to_know_me.jinja2")
-  
+import os
+
+UPLOAD_DEST = os.path.abspath(os.path.dirname(__file__)) + "\\App\\upload\\"
+
+configure_uploads(app, PHOTOS)
+
+@app.before_first_request
+def start_db():
+  db.create_all()
+
 @app.route("/", methods=["GET"])
 def get_index():
   return redirect(url_for("get_page"))
-
-@app.route("/success")
-def success():
-  return render_template("success.jinja2", users = User.query.all())
 
 @app.route("/take-a-breath")
 @app.route("/scheduling")
@@ -43,7 +35,32 @@ def get_page():
 @app.route("/upcoming-projects")
 @login_required
 def upcoming_projects():
-  return render_template("upcoming_projects.jinja2")
+  return render_template("upcoming_projects.jinja2", users = User.query.all())
+
+@app.route("/success")
+def success():
+  return render_template("success.jinja2", users = User.query.all())
+
+@app.route("/get-to-know-me", methods = ["GET", "POST"])
+@login_required
+def get_to_know_me():
+  form = BioForm()
+  existing_bio = Bio.query.filter_by(email = current_user.email).first()
+  if form.validate_on_submit():
+    url = UPLOAD_DEST + PHOTOS.save(form.photo.data) if form.photo else None
+    if existing_bio:
+      existing_bio.bio = form.bio.data
+      existing_bio.photo = url
+      existing_bio.phone = form.phone.data
+      existing_bio.ig = form.ig.data
+      existing_bio.snap = form.snap.data
+    else:
+      bio = Bio(email = current_user.email, bio = form.bio.data, photo = url, ig = form.ig.data, snap = form.snap.data)
+      db.session.add(bio)
+    db.session.commit()
+    return redirect(url_for("get_index"))
+  return render_template("get_to_know_me.jinja2", form = form, existing_bio = existing_bio, bios = Bio.query.all())
+
 
 @app.route("/signup", methods = ["GET", "POST"])
 def signup():
@@ -76,7 +93,7 @@ def login():
   return render_template("login.jinja2", form = form)
 
 @login_manager.user_loader
-def loadd_user(user_id):
+def load_user(user_id):
   if user_id is not None:
     return User.query.get(user_id)
   return None
@@ -92,4 +109,14 @@ def logout():
   logout_user()
   return redirect(url_for("login"))
 
-app.run(host='0.0.0.0', port=8080)
+@app.route("/upload/<path:path>")
+def upload(path):
+  if "/" in path or "\\" in path:
+    return "Please stop trying to do a file traversal attack. Not cool."
+  fullpath = "./upload/" + path
+  resp = make_response(open(fullpath).read())
+  resp.content_type = "image/" + fullpath.split(".")[-1]
+  return resp
+
+app.debug = True
+app.run(host = "0.0.0.0", port = "8080")

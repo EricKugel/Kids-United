@@ -13,11 +13,11 @@
             <nav id = "nav"></nav>
         </header>
         <div id = "content">
-        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br>
             {% block content %}{% endblock %}
         </div>
         <footer>
-            Eric Kugel  |  erickugel713@gmail.com  | (507)-254-3167
+            Eric Kugel  |  erickugel713@gmail.com  | (507)-254-3167 | <a href = "{{ url_for('logout') }}">Logout</a>
         </footer>
     </body>
 </html>

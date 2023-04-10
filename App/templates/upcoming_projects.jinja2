@@ -1,3 +1,12 @@
 {% extends "layout.jinja2" %}
 {% block content %}
+
+<div class = "section">
+    <ul>
+    {% for user in users %}
+    <li>{{user.email}}: {{user.name}} from {{user.country}}</li>
+    {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}

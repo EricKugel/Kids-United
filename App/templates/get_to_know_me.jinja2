@@ -1,4 +1,64 @@
 {% extends "layout.jinja2" %}
-
 {% block content %}
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+    <button
+        type="button"
+        class="close"
+        data-dismiss="alert">
+        x
+        </button>
+    {{ message }}
+    </div>
+{% endfor %}
+
+<form method = "POST" action = "/get-to-know-me" enctype = "multipart/form-data">
+{{ form.csrf_token }}
+
+<fieldset class="bio">
+    {{ form.bio.label }}
+    {{ form.bio }}
+    {% if form.bio.errors %}
+        <ul class="errors">
+        {% for error in form.email.errors %}
+            <li>{{ error }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+</fieldset>
+
+<fieldset class = "photo">
+    {{ form.photo.label }}
+    {{ form.photo }}
+    {% if form.photo.errors %}
+        <ul class="errors">
+        {% for error in form.photo.errors %}
+            <li>{{ error }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+</fieldset>
+
+<p>Contact Information (optional)</p>
+<fieldset class="phone">
+    {{ form.phone.label }}
+    {{ form.phone }}
+</fieldset>
+<fieldset class = "ig">
+    {{ form.ig.label }}
+    {{ form.ig }}
+</fieldset>
+<fieldset class = "snap">
+    {{ form.snap.label }}
+    {{ form.snap }}
+</fieldset>
+<div class="submit-button">
+  {{ form.submit }}
+</div>
+</form>
+
+<ul>
+{% for bio in bios %}
+<li>{{bio.bio}}</li>
+<img src = {{bio.photo}}/>
+{% endfor %}
+</ul>
 {% endblock %}
