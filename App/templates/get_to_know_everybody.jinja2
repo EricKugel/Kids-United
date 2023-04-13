@@ -1,0 +1,24 @@
+{% extends "layout.jinja2" %}
+{% block content %}
+
+<a href = "{{ url_for('get_to_know_me') }}">My Bio</a>
+<hr>
+
+{% for bio in bios %}
+
+<div>
+    <a href = "{{ url_for('get_to_know_them', email = bio.email) }}">{{ bio.name }}</a>
+</div>
+<img width = '100px' height = '100px' src = "{{ bio.photo }}" />
+
+{{ bio.bio }}
+
+Phone : {{ bio.phone }}
+IG : {{ bio.ig }}
+Snap : {{ bio.snap }}
+
+{% endfor %}
+
+
+
+{% endblock %}

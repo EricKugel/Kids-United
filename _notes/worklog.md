@@ -7,3 +7,4 @@
 |4/4|Learned *way* more than I wanted about SQL and Flask. Maybe <br> these hours shouldn't count because I was merely preparing to <br> work, and didn't really contribute anything. | 2.3 |
 |4/5|Changed the project structure to be more Flasky and allow for <br> more changes later, and GOT USER AUTHENTICATION TO WORK <br> this is so freaking awesome I can't believe this works |3.1|
 |4/8-4/9|Bought and set up a domain/email, communicated plans, made a lot <br> of progress on a get-to-know-me system | 4.25 |
+|4/13|Made much more progress on get to know me, set up the Zoom API <br> integration, and started the gmail integration. | 2.8 |

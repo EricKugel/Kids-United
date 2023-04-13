@@ -10,9 +10,12 @@ from . import login_manager
 from .models import db, User, Bio, render_picture
 from .forms import SignupForm, LoginForm, BioForm, PHOTOS
 
+from .zoom import generate_meeting
+from .gmail import send_email
+
 import os
 
-UPLOAD_DEST = os.path.abspath(os.path.dirname(__file__)) + "\\App\\upload\\"
+UPLOAD_DEST = os.path.abspath(os.path.dirname(__file__))
 
 configure_uploads(app, PHOTOS)
 
@@ -24,8 +27,14 @@ def start_db():
 def get_index():
   return redirect(url_for("get_page"))
 
-@app.route("/take-a-breath")
 @app.route("/scheduling")
+@app.route("/scheduling/")
+def scheduling():
+  meeting = generate_meeting()
+  send_email("erickugel713@gmail.com")
+  return render_template("scheduling.jinja2", url = meeting[0], password = meeting[1])
+
+@app.route("/take-a-breath")
 @app.route("/blog")
 @app.route("/about-us")
 def get_page():
@@ -47,7 +56,7 @@ def get_to_know_me():
   form = BioForm()
   existing_bio = Bio.query.filter_by(email = current_user.email).first()
   if form.validate_on_submit():
-    url = UPLOAD_DEST + PHOTOS.save(form.photo.data) if form.photo else None
+    url = url_for("upload", filename = PHOTOS.save(form.photo.data)) if form.photo else None
     if existing_bio:
       existing_bio.bio = form.bio.data
       existing_bio.photo = url
@@ -55,12 +64,23 @@ def get_to_know_me():
       existing_bio.ig = form.ig.data
       existing_bio.snap = form.snap.data
     else:
-      bio = Bio(email = current_user.email, bio = form.bio.data, photo = url, ig = form.ig.data, snap = form.snap.data)
+      bio = Bio(email = current_user.email, name = current_user.name, country = current_user.country, bio = form.bio.data, photo = url, ig = form.ig.data, snap = form.snap.data)
       db.session.add(bio)
     db.session.commit()
     return redirect(url_for("get_index"))
   return render_template("get_to_know_me.jinja2", form = form, existing_bio = existing_bio, bios = Bio.query.all())
 
+@app.route("/get-to-know-me/<email>")
+@app.route("/get-to-know-me/<email>/")
+def get_to_know_them(email):
+  bio = Bio.query.filter_by(email = email).first()
+  return render_template("get_to_know_them.jinja2", bio = bio)
+
+@app.route("/get-to-know-me/all")
+@app.route("/get-to-know-me/all/")
+def get_to_know_everybody():
+  bios = Bio.query.all()
+  return render_template("get_to_know_everybody.jinja2", bios = bios)
 
 @app.route("/signup", methods = ["GET", "POST"])
 def signup():
@@ -109,12 +129,13 @@ def logout():
   logout_user()
   return redirect(url_for("login"))
 
-@app.route("/upload/<path:path>")
-def upload(path):
-  if "/" in path or "\\" in path:
+@app.route("/upload/<filename>")
+@app.route("/upload/<filename>/")
+def upload(filename):
+  if "/" in filename or "\\" in filename:
     return "Please stop trying to do a file traversal attack. Not cool."
-  fullpath = "./upload/" + path
-  resp = make_response(open(fullpath).read())
+  fullpath = "App/upload/" + filename
+  resp = make_response(open(fullpath, "rb").read())
   resp.content_type = "image/" + fullpath.split(".")[-1]
   return resp
 

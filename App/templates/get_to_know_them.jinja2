@@ -1,0 +1,12 @@
+{% extends "layout.jinja2" %}
+{% block content %}
+
+{{ bio.bio }}
+
+<img width = "100px" height = "100px" src = "{{ bio.photo }}" />
+
+Phone : {{ bio.phone }}
+IG : {{ bio.ig }}
+Snap : {{ bio.snap }}
+
+{% endblock %}

@@ -9,7 +9,7 @@ from io import BytesIO
 class User(UserMixin, db.Model):
     __tablename__ = "flasklogin-users"
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(64), index = False, unique = True, nullable = False)
+    name = db.Column(db.String(64), index = False, unique = False, nullable = False)
     email = db.Column(db.String(80), index = True, unique = True, nullable = False)
     password = db.Column(db.String(200), primary_key = False, unique = False, nullable = False)
     country = db.Column(db.String(100), index = False, unique = False, nullable = True)
@@ -26,6 +26,8 @@ class Bio(db.Model):
     __tablename__ = "bios"
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(80), index = True, unique = True, nullable = False)
+    name = db.Column(db.String(64), index = False, unique = False, nullable = False)
+    country = db.Column(db.String(100), index = False, unique = False, nullable = True)
     bio = db.Column(db.Text, index = False, unique = False, nullable = False)
     photo = db.Column(db.String(100), index = False, unique = False, nullable = True)
 

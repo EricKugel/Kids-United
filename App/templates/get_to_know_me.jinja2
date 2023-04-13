@@ -1,5 +1,8 @@
 {% extends "layout.jinja2" %}
 {% block content %}
+
+<a href = "{{ url_for('get_to_know_everybody') }}">Back</a>
+
 {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
     <button
@@ -50,15 +53,8 @@
     {{ form.snap.label }}
     {{ form.snap }}
 </fieldset>
-<div class="submit-button">
+<div class = "submit-button">
   {{ form.submit }}
 </div>
 </form>
-
-<ul>
-{% for bio in bios %}
-<li>{{bio.bio}}</li>
-<img src = {{bio.photo}}/>
-{% endfor %}
-</ul>
 {% endblock %}
