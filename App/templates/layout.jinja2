@@ -3,21 +3,27 @@
     <head>
         <title>Kids United</title>
         <link rel = "stylesheet" href = "/static/styles.css"/>
-        <script src = "/static/main.js"></script>
     </head>
     <body>
         <header id = "header">
             <div id = "logo">
-                <img id = "logo_image" src = "/static/lib/logo.png"/>
+                <object id = "logo_image" data = "/static/lib/logo.svg"></object>
             </div>
-            <nav id = "nav"></nav>
+            <nav id = "nav">
+                <a class = "nav_link" href = "{{ url_for('upcoming_projects') }}">Upcoming Projects</a>
+                <a class = "nav_link" href = "{{ url_for('take_a_breath') }}">Take a Breath</a>
+                <a class = "nav_link" href = "{{ url_for('get_to_know_everybody') }}">Get to Know Me</a>
+                <a class = "nav_link" href = "{{ url_for('blog') }}">Blog</a>
+                <a class = "nav_link" href = "{{ url_for('get_index') }}">About Us</a>
+            </nav>
         </header>
         <div id = "content">
         <br><br><br><br><br>
             {% block content %}{% endblock %}
         </div>
         <footer>
-            Eric Kugel  |  erickugel713@gmail.com  | (507)-254-3167 | <a href = "{{ url_for('logout') }}">Logout</a>
+            Signed in as {{ current_user.name }} | <a href = "{{ url_for('logout') }}">Logout</a> {% if session['admin'] %}| <a href = "{{ url_for('admin') }}"><b style = "color: red">ADMIN</b><a>{% endif %}
+            <p>Website by Eric Kugel</p>
         </footer>
     </body>
 </html>

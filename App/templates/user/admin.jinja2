@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, td, th {
+  border: 1px solid;
+  padding: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+</style>
+<script>
+    function del(email) {
+        const request = new XMLHttpRequest();
+        request.open("POST", "/admin");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify({"email": email}));
+        var row = document.getElementById(email);
+        row.parentElement.removeChild(row);
+    }
+</script>
+</head>
+<body>
+<a href = "{{ url_for('get_index') }}">Back</a><h1>Admin Stuffz</h1><p>Careful you will delete their account if you click the x 👍👍👍👍</p><p>Eventually admins will be able to create upcoming projects posts stuff and stuff from here?</p>
+<table>
+<tbody>
+<tr>
+<th>Name</th><th>Email</th><th>Country</th><th>Admin</th><th>Delete User</th>
+</tr>
+{% for user in users %}
+<tr id = "{{ user.email }}">
+<td><a href = "{{ url_for('get_to_know_them', email = user.email)}}">{{ user.name }}</a></td>
+<td>{{ user.email }}</td>
+<td>{{ user.country }}</td>
+<td>
+    {% if user.admin %}<span style = "color:green">Yes</span>{% endif %}
+    {% if not user.admin %}<span style = "color:red">No</span>{% endif %}
+</td>
+<td>
+<button onclick = "del('{{ user.email }}')">x</button>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</body>
+</html>

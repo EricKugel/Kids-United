@@ -35,5 +35,23 @@ class Bio(db.Model):
     ig = db.Column(db.String(20), index = False, unique = False, nullable = True)
     snap = db.Column(db.String(20), index = False, unique = False, nullable = True)
 
-def render_picture(data):
-    render_pic = base64.b64encode(data).decode("ascii")
+class Blog(db.Model):
+    __tablename__ = "blogs"
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(64), index = False, unique = False, nullable = False)
+    email = db.Column(db.String(80), index = False, unique = False, nullable = False)
+    country = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    blog = db.Column(db.Text, index = False, unique = False, nullable = False)
+    
+    photo0 = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    photo1 = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    photo2 = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    youtube = db.Column(db.String(100), index = False, unique = False, nullable = True)
+
+class Request(db.Model):
+    __tablename__ = "requests"
+    id = db.Column(db.Integer, primary_key = True, unique = True, nullable = False)
+    email0 = db.Column(db.String(80), index = False, unique = False, nullable = False)
+    email1 = db.Column(db.String(80), index = False, unique = False, nullable = False)
+    time = db.Column(db.String(80), index = False, unique = False, nullable = False)
+    message = db.Column(db.Text, index = False, unique = False, nullable = False)

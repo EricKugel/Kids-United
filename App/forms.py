@@ -28,3 +28,22 @@ class BioForm(FlaskForm):
     ig = StringField("Instagram handle")
     snap = StringField("Snap")
     submit = SubmitField("Submit")
+
+class BlogForm(FlaskForm):
+    blog = TextAreaField("Write something for the blog!", [DataRequired("Write something")])
+    
+    photo0 = FileField("Photo 1", [FileAllowed(PHOTOS, "File must be an image")])
+    photo1 = FileField("Photo 2", [FileAllowed(PHOTOS, "File must be an image")])
+    photo2 = FileField("Photo 3", [FileAllowed(PHOTOS, "File must be an image")])
+    
+    youtube = StringField("Link to youtube video (optional)")
+    submit = SubmitField("submit")
+
+class ElevateForm(FlaskForm):
+    password = PasswordField("Secret Code", [DataRequired()])
+    submit = SubmitField("Submit")
+
+class RequestForm(FlaskForm):
+    time = StringField("Time, date, and timezone", [DataRequired()])
+    message = TextAreaField("Message", [DataRequired()])
+    submit = SubmitField("Submit")
