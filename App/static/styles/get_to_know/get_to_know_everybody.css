@@ -1,0 +1,65 @@
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  margin: 50px;
+}
+
+#editMyBio {
+  transition: all 0.2s linear 0s;
+  display: block;
+  width: 399px;
+  height: 25px;
+  background-color: lightblue;
+  text-align: center;
+  color: black;
+  font-size: 16px;
+  text-decoration: none;
+  line-height: 25px;
+  font-family: "grandstander";
+  border: 1px solid black;
+  border-top: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#editMyBio:hover {
+  box-shadow: 0 0 7px gray;
+}
+
+.bioWrapper {
+  width: 400px;
+  transition: all 0.2s linear 0s;
+}
+
+.bio {
+  display: flex;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.bio:hover {
+  box-shadow: 0 0 7px gray;
+}
+
+.left,
+.right {
+  width: 200px;
+  height: 200px;
+}
+
+.right {
+  text-align: center;
+  background-color: lightblue;
+}
+
+#name {
+  margin-top: 70px;
+  font-size: 24px;
+  font-family: "grandstander";
+}
+
+#bottom {
+  border-bottom-left-radius: 5px;
+}

@@ -1,61 +1,84 @@
 {% extends "layout.jinja2" %}
 {% block content %}
 
-<a href = "{{ url_for('create') }}">Create Post</a>
+<link rel = "stylesheet" href = "static/styles/blog.css"/>
 
 <script>
-    // delete button
     function del(butt) {
         const request = new XMLHttpRequest();
         request.open("POST", "/blog");
         request.setRequestHeader("Content-Type", "application/json");
         request.send(JSON.stringify({"id": butt.getAttribute("id")}));
-        butt.parentElement.parentElement.removeChild(butt.parentElement);
+        butt.parentElement.parentElement.parentElement.removeChild(butt.parentElement.parentElement);
+    }
+
+    const r = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    window.onload = function() {
+        let youtube_blocks = document.getElementsByClassName("youtube");
+        for (var i = 0; i < youtube_blocks.length; i++) {
+            let block = youtube_blocks[i];
+            let url = block.getAttribute("data-url");
+            const match = url.match(r);
+            const asdf = '<iframe width="640" height="480" src="//www.youtube.com/embed/' 
+        + match[2] + '" frameborder="0" allowfullscreen></iframe>';
+            block.innerHTML = asdf;
+        }
+    }
+
+    function redirect(obj) {
+        window.location.href = obj.getAttribute("name");
+    }
+
+    function redirect_img(obj) {
+        window.open(obj.src, "_blank")
     }
 </script>
 
-{% for blog in blogs %}
-<div>
-{% if current_user.admin %}
-<button class = "delete" id = "{{ blog.id }}" onclick = "del(this)">Delete</button>
-{% endif %}
+<div id = "wrapper">
+    <div id = "create" name = "{{url_for('create')}}" onclick = "redirect(this)">
+        +
+    </div>
+    {% for blog in blogs %}
+    <div class = "blog">
+        <div class = "top">
+            {% if current_user.admin %}
+            <button class = "delete" id = "{{ blog.id }}" onclick = "del(this)">x</button>
+            {% endif %}
 
-<div>
-    <a href = "{{ url_for('get_to_know_them', email = blog.email) }}">{{ blog.name }}</a>
-    <p>{{ blog.country }}</p>
+            <div class = "person_wrapper"> 
+                <div class = "left"><img width = "100px" height = "100px" src = "{{ blog.photo }}"/></div>
+                <div class = "right">
+                    <a class = "name" href = "{{ url_for('get_to_know_them', id = blog.user_id) }}">{{ blog.name }}</a>
+                    <p>{{ blog.country }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class = "bottom">
+            <div class = "blog_content">
+                <b>{{ blog.date }}</b><br/><br/>
+                {{ blog.blog }}
+            </div>
+
+            <div class = "photos">
+                {% if blog.photo0 %}
+                <img class = "photo_thing" onclick = "redirect_img(this)" src = "{{ blog.photo0 }}" />
+                {% endif %}
+                
+                {% if blog.photo1 %}
+                <img class = "photo_thing" onclick = "redirect_img(this)" src = "{{ blog.photo1 }}" />
+                {% endif %}
+                
+                {% if blog.photo2 %}
+                <img class = "photo_thing" onclick = "redirect_img(this)" src = "{{ blog.photo2 }}" />
+                {% endif %}
+            </div>
+
+            {% if blog.youtube %}
+            <div class = "youtube" data-url="{{ blog.youtube }}">Generating video..</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
-    
-{{ blog.blog }}
-
-{% if blog.photo0 %}
-<img width = '100px' height = '100px' src = "{{ blog.photo0 }}" />
-{% endif %}
-{% if blog.photo1 %}
-<img width = '100px' height = '100px' src = "{{ blog.photo1 }}" />
-{% endif %}
-{% if blog.photo2 %}
-<img width = '100px' height = '100px' src = "{{ blog.photo2 }}" />
-{% endif %}
-
-{% if blog.youtube %}
-<div class = "youtube" data-url="{{ blog.youtube }}">Generating video..</div>
-{% endif %}
-</div>
-{% endfor %}
-
-<script>
-const r = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-window.onload = function() {
-    let youtube_blocks = document.getElementsByClassName("youtube");
-    for (var i = 0; i < youtube_blocks.length; i++) {
-        let block = youtube_blocks[i];
-        let url = block.getAttribute("data-url");
-        const match = url.match(r);
-        const asdf = '<iframe width="560" height="315" src="//www.youtube.com/embed/' 
-    + match[2] + '" frameborder="0" allowfullscreen></iframe>';
-        block.innerHTML = asdf;
-    }
-}
-</script>
-
 {% endblock %}

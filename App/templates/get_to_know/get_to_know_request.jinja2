@@ -1,7 +1,9 @@
 {% extends "layout.jinja2" %}
 {% block content %}
+<br/><br/><br/><br/><br/><br/>
+<link rel = "stylesheet" href = "/static/styles/forms.css"/>
+<div id = "wrapper">
 
-<a href = "{{ url_for('get_to_know_everybody') }}">Back</a>
 
 {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
@@ -15,11 +17,13 @@
     </div>
 {% endfor %}
 
-<form method = "POST" action = "/get-to-know-me/request" enctype = "multipart/form-data">
+<h1>Scedule a meeting with {{ name }}</h1>
+
+<form method = "POST" action = "{{ url_for('get_to_know_request', id=id)}}" enctype = "multipart/form-data">
 {{ form.csrf_token }}
 
 <fieldset class="time">
-    {{ form.time.label }}
+    {{ form.time.label }}<br/>
     {{ form.time }}
     {% if form.time.errors %}
         <ul class="errors">
@@ -44,4 +48,5 @@
   {{ form.submit }}
 </div>
 </form>
+</div><br/><br/><br/><br/><br/>
 {% endblock %}

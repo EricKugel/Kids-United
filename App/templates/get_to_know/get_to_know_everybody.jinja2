@@ -1,24 +1,38 @@
 {% extends "layout.jinja2" %}
 {% block content %}
+<link rel = "stylesheet" href = "/static/styles/get_to_know/get_to_know_everybody.css">
 
-<a href = "{{ url_for('get_to_know_me') }}">My Bio</a>
-<hr>
+<div id = "wrapper">
 
 {% for bio in bios %}
-
-<div>
-    <a href = "{{ url_for('get_to_know_them', email = bio.email) }}">{{ bio.name }}</a>
+<div id = "{{url_for('get_to_know_them', id = bio.user_id)}}" class = "bioWrapper {% if loop.index %2 == 0%}slide_left{% else %}slide_right{% endif %}" onclick = "redirect(this)">
+    <div class = "bio">
+        <div class = "left">
+            <img width = '200px' height = '200px' src = "{{ bio.photo }}" />
+        </div>
+        <div class = "right">
+            <div id = "name">
+                {{ bio.name }}
+            </div>
+            <div id = "country">
+                {{ bio.country }}
+            </div>
+        </div>
+    </div>
+    {% if bio.email == current_user.email %}
+    <div id = "bottom">
+        <a id = "editMyBio" href = "{{url_for('get_to_know_me')}}">
+            Edit My Bio
+        </a>
+    </div>
+    {% endif %}
 </div>
-<img width = '100px' height = '100px' src = "{{ bio.photo }}" />
-
-{{ bio.bio }}
-
-Phone : {{ bio.phone }}
-IG : {{ bio.ig }}
-Snap : {{ bio.snap }}
-
 {% endfor %}
+</div>
 
-
-
+<script>
+    function redirect(obj) {
+        window.location.href = obj.id;
+    }
+</script>
 {% endblock %}

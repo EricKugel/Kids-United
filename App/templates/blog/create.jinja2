@@ -1,73 +1,80 @@
 {% extends "layout.jinja2" %}
 {% block content %}
 
-<a href = "{{ url_for('blog') }}">Back</a>
+<link rel = "stylesheet" href = "/static/styles/forms.css"/>
 
-{% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-    <button
-        type="button"
-        class="close"
-        data-dismiss="alert">
-        x
-        </button>
-    {{ message }}
+<div id = "wrapper">
+
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+        <button
+            type="button"
+            class="close"
+            data-dismiss="alert">
+            x
+            </button>
+        {{ message }}
+        </div>
+    {% endfor %}
+
+    <form method = "POST" action = "/blog/create" enctype = "multipart/form-data">
+    {{ form.csrf_token }}
+
+    <fieldset class="blog">
+        {{ form.blog.label }}
+        {{ form.blog }}
+        {% if form.blog.errors %}
+            <ul class="errors">
+            {% for error in form.blog.errors %}
+                <li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
+
+    <hr/>
+    <p>Photos, optional, up to 3</p>
+    <fieldset class = "photo special">
+        {{ form.photo0.label }}
+        {{ form.photo0 }}
+        {% if form.photo0.errors %}
+            <ul class="errors">
+            {% for error in form.photo0.errors %}
+                <li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
+    <fieldset class = "photo special">
+        {{ form.photo1.label }}
+        {{ form.photo1 }}
+        {% if form.photo1.errors %}
+            <ul class="errors">
+            {% for error in form.photo1.errors %}
+                <li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
+    <fieldset class = "photo special">
+        {{ form.photo2.label }}
+        {{ form.photo2 }}
+        {% if form.photo2.errors %}
+            <ul class="errors">
+            {% for error in form.photo2.errors %}
+                <li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
+
+    <hr/>
+
+    <fieldset class="youtube">
+        {{ form.youtube.label }}
+        {{ form.youtube }}
+    </fieldset>
+
+    <div class = "submit-button">
+    {{ form.submit }}
     </div>
-{% endfor %}
-
-<form method = "POST" action = "/blog/create" enctype = "multipart/form-data">
-{{ form.csrf_token }}
-
-<fieldset class="blog">
-    {{ form.blog.label }}
-    {{ form.blog }}
-    {% if form.blog.errors %}
-        <ul class="errors">
-        {% for error in form.blog.errors %}
-            <li>{{ error }}</li>{% endfor %}
-        </ul>
-    {% endif %}
-</fieldset>
-
-<fieldset class = "photo">
-    {{ form.photo0.label }}
-    {{ form.photo0 }}
-    {% if form.photo0.errors %}
-        <ul class="errors">
-        {% for error in form.photo0.errors %}
-            <li>{{ error }}</li>{% endfor %}
-        </ul>
-    {% endif %}
-</fieldset>
-<fieldset class = "photo">
-    {{ form.photo1.label }}
-    {{ form.photo1 }}
-    {% if form.photo1.errors %}
-        <ul class="errors">
-        {% for error in form.photo1.errors %}
-            <li>{{ error }}</li>{% endfor %}
-        </ul>
-    {% endif %}
-</fieldset>
-<fieldset class = "photo">
-    {{ form.photo2.label }}
-    {{ form.photo2 }}
-    {% if form.photo2.errors %}
-        <ul class="errors">
-        {% for error in form.photo2.errors %}
-            <li>{{ error }}</li>{% endfor %}
-        </ul>
-    {% endif %}
-</fieldset>
-
-<fieldset class="youtube">
-    {{ form.youtube.label }}
-    {{ form.youtube }}
-</fieldset>
-
-<div class = "submit-button">
-  {{ form.submit }}
+    </form>
 </div>
-</form>
 
 {% endblock %}

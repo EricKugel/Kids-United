@@ -1,12 +1,30 @@
 {% extends "layout.jinja2" %}
 {% block content %}
 
-{{ bio.bio }}
+<link rel = "stylesheet" href = "/static/styles/get_to_know/get_to_know_them.css">
 
-<img width = "100px" height = "100px" src = "{{ bio.photo }}" />
-
-Phone : {{ bio.phone }}
-IG : {{ bio.ig }}
-Snap : {{ bio.snap }}
+<div id = "wrapper">
+    <div id = "top">
+        <div id = "left">
+            <img width = "300px" height = "300px" src = "{{ bio.photo }}" />
+        </div>
+        <div id = "right">
+            <div><span id = "name">{{ bio.name }}</span>, {{ bio.email }}</div>
+            <div>{% if admin %}<span style="color: red">{{ bio.title }}</span>{% endif %}</div>
+            <div id = "country">{{ bio.country }}</div>
+            <div id = "pronouns">{{ bio.pronouns }}</div>
+            <hr/>
+            <div id = "bio">
+                {{ bio.bio }}
+            </div>
+        </div>
+    </div>
+    <div id = "bottom">
+        {% if bio.phone %}<div class = "contact" id = "phone"><img class = "icon" src = "/static/lib/phone.png"/>{{ bio.phone }}</div>{% endif %}
+        {% if bio.ig %}<div class = "contact" id = "ig"><img class = "icon" src = "/static/lib/ig.png"/>{{ bio.ig }}</div>{% endif %}
+        {% if bio.snap %}<div class = "contact" id = "snap"><img class = "icon" src = "/static/lib/snap.png"/>{{ bio.snap }}</div>{% endif %}
+        <div class = "contact" id = "zoom"><img class = "icon" src = "/static/lib/zoom.png"/><a href = "{{ url_for('get_to_know_request', id=bio.user_id) }}">Schedule a Zoom meeting with {{ bio.name }} </a></div>
+    </div>
+</div>
 
 {% endblock %}

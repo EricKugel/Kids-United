@@ -1,9 +1,10 @@
 {% extends "layout.jinja2" %}
 {% block content %}
 
-<a href = "{{ url_for('get_to_know_everybody') }}">Back</a>
+<link rel = "stylesheet" href = "/static/styles/forms.css"/>
 
-{% for message in get_flashed_messages() %}
+<div id = "wrapper">
+    {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
     <button
         type="button"
@@ -13,13 +14,20 @@
         </button>
     {{ message }}
     </div>
-{% endfor %}
+    {% endfor %}
 
-<form method = "POST" action = "/get-to-know-me" enctype = "multipart/form-data">
-{{ form.csrf_token }}
+    <form method = "POST" action = "/get-to-know-me" enctype = "multipart/form-data">
+    {{ form.csrf_token }}
 
-<fieldset class="bio">
-    {{ form.bio.label }}
+    {% if current_user.admin %}
+    <fieldset class = "title">
+    {{ form.title.label }}<br/>
+    {{ form.title }}
+    </fieldset>
+    {% endif %}
+
+    <fieldset class="bio">
+    {{ form.bio.label }}<br/>
     {{ form.bio }}
     {% if form.bio.errors %}
         <ul class="errors">
@@ -27,34 +35,57 @@
             <li>{{ error }}</li>{% endfor %}
         </ul>
     {% endif %}
-</fieldset>
-
-<fieldset class = "photo">
-    {{ form.photo.label }}
-    {{ form.photo }}
-    {% if form.photo.errors %}
-        <ul class="errors">
-        {% for error in form.photo.errors %}
-            <li>{{ error }}</li>{% endfor %}
-        </ul>
-    {% endif %}
-</fieldset>
-
-<p>Contact Information (optional)</p>
-<fieldset class="phone">
-    {{ form.phone.label }}
-    {{ form.phone }}
-</fieldset>
-<fieldset class = "ig">
-    {{ form.ig.label }}
-    {{ form.ig }}
-</fieldset>
-<fieldset class = "snap">
-    {{ form.snap.label }}
-    {{ form.snap }}
-</fieldset>
-<div class = "submit-button">
-  {{ form.submit }}
+    </fieldset>
+    <hr/>
+    <fieldset class = "photo">
+        <div class = "left">
+            {{ form.photo.label }}<br/>
+            {{ form.photo }}
+            {% if form.photo.errors %}
+                <ul class="errors">
+                {% for error in form.photo.errors %}
+                    <li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class = "right">
+            {% if existing_bio.photo %}
+                <img id = "img" width = "100px" height = "100px" src = "{{ existing_bio.photo }}"/>
+            {% endif %}
+        </div>
+    
+        <script>
+            window.onload = function() {
+                const photo =  document.getElementById("photo");
+                photo.onchange = (evt) => {
+                    const [file] = photo.files;
+                    if (file) {
+                        document.getElementById("img").src = URL.createObjectURL(file);
+                    }
+                }
+            }
+        </script>
+    </fieldset>
+    <hr/>
+    <p>Contact Information (optional)</p>
+    <div id = "contact">
+        <div class = "thing">
+            <div>{{ form.phone.label }}</div>
+            <div>{{ form.phone }}</div>
+        </div>
+        <div class = "thing">
+            <div>{{ form.ig.label }}</div>
+            <div>{{ form.ig }}</div>
+        </div>
+        <div class = "snap">
+            <div>{{ form.snap.label }}</div>
+            <div>{{ form.snap }}</div>
+        </div>
+    </div>
+    <div class = "submit-button">
+        {{ form.submit }}
+    </div>
+    </form>
 </div>
-</form>
+
 {% endblock %}

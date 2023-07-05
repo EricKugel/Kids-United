@@ -12,7 +12,8 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(64), index = False, unique = False, nullable = False)
     email = db.Column(db.String(80), index = True, unique = True, nullable = False)
     password = db.Column(db.String(200), primary_key = False, unique = False, nullable = False)
-    country = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    country = db.Column(db.String(100), index = False, unique = False, nullable = False)
+    pronouns = db.Column(db.String(64), index = False, unique = False, nullable = False)
     admin = db.Column(db.Boolean, index = False, unique = False, nullable = False)
 
     def set_password(self, password):
@@ -25,11 +26,14 @@ class User(UserMixin, db.Model):
 class Bio(db.Model):
     __tablename__ = "bios"
     id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, index = False, unique = False, nullable = False)
     email = db.Column(db.String(80), index = True, unique = True, nullable = False)
     name = db.Column(db.String(64), index = False, unique = False, nullable = False)
-    country = db.Column(db.String(100), index = False, unique = False, nullable = True)
-    bio = db.Column(db.Text, index = False, unique = False, nullable = False)
+    country = db.Column(db.String(100), index = False, unique = False, nullable = False)
+    bio = db.Column(db.Text, index = False, unique = False, nullable = True)
     photo = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    pronouns = db.Column(db.String(64), index = False, unique = False, nullable = False)
+    title = db.Column(db.String(32), index = False, unique = False, nullable = True)
 
     phone = db.Column(db.String(20), index = False, unique = False, nullable = True)
     ig = db.Column(db.String(20), index = False, unique = False, nullable = True)
@@ -38,6 +42,7 @@ class Bio(db.Model):
 class Blog(db.Model):
     __tablename__ = "blogs"
     id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, index = False, unique = False, nullable = False)
     name = db.Column(db.String(64), index = False, unique = False, nullable = False)
     email = db.Column(db.String(80), index = False, unique = False, nullable = False)
     country = db.Column(db.String(100), index = False, unique = False, nullable = True)
@@ -47,6 +52,7 @@ class Blog(db.Model):
     photo1 = db.Column(db.String(100), index = False, unique = False, nullable = True)
     photo2 = db.Column(db.String(100), index = False, unique = False, nullable = True)
     youtube = db.Column(db.String(100), index = False, unique = False, nullable = True)
+    date = db.Column(db.String(100), index = False, unique = False, nullable = False)
 
 class Request(db.Model):
     __tablename__ = "requests"

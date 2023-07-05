@@ -21,6 +21,15 @@ table {
         var row = document.getElementById(email);
         row.parentElement.removeChild(row);
     }
+
+    function delReq(id) {
+        const request = new XMLHttpRequest();
+        request.open("POST", "/admin");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify({"id": parseInt(id)}));
+        var row = document.getElementById(id);
+        row.parentElement.removeChild(row);
+    }
 </script>
 </head>
 <body>
@@ -32,7 +41,7 @@ table {
 </tr>
 {% for user in users %}
 <tr id = "{{ user.email }}">
-<td><a href = "{{ url_for('get_to_know_them', email = user.email)}}">{{ user.name }}</a></td>
+<td><a href = "{{ url_for('get_to_know_them', id = user.id)}}">{{ user.name }}</a></td>
 <td>{{ user.email }}</td>
 <td>{{ user.country }}</td>
 <td>
@@ -41,6 +50,21 @@ table {
 </td>
 <td>
 <button onclick = "del('{{ user.email }}')">x</button>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<br><br>
+<table>
+<tbody>
+<tr>
+<th>Meeting Request</th><th>Requested Time</th><th>Message</th><th>Request Resolved?<br/>(Did you send an email to both parties?)</th>
+</tr>
+{% for request in requests %}
+<tr id = "{{ request.id }}">
+<td>{{request.email0}} => {{request.email1}}</td><td>{{request.time}}</td><td>{{request.message}}</td><td>
+<button onclick = "delReq('{{request.id}}')">x</button>
 </td>
 </tr>
 {% endfor %}

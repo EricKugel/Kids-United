@@ -11,7 +11,8 @@ class SignupForm(FlaskForm):
     email = StringField("Email", [Email(message = "Not a valid email"), DataRequired()])
     password = PasswordField("Password", [DataRequired(), Length(min = 6, message = "Make it longer please")])
     confirm = PasswordField("Confirm Password", [DataRequired(), EqualTo("password", message = "Passwords don't match")])
-    country = StringField("Country")
+    country = StringField("Country", [DataRequired()])
+    pronouns = StringField("Pronouns", [DataRequired()])
     submit = SubmitField("Sign up")
 
 class LoginForm(FlaskForm):
@@ -22,12 +23,13 @@ class LoginForm(FlaskForm):
 PHOTOS = UploadSet("photos", IMAGES)
 
 class BioForm(FlaskForm):
+    title = StringField("Title")
     bio = TextAreaField("Tell us a little bit about yourself!", [DataRequired()])
-    photo = FileField("Upload picture (optional)", [FileAllowed(PHOTOS, "File must be an image")])
+    photo = FileField("Upload picture, cropped to square (optional)", [FileAllowed(PHOTOS, "File must be an image")])
     phone = StringField("Phone number")
-    ig = StringField("Instagram handle")
+    ig = StringField("Instagram")
     snap = StringField("Snap")
-    submit = SubmitField("Submit")
+    submit = SubmitField("Update")
 
 class BlogForm(FlaskForm):
     blog = TextAreaField("Write something for the blog!", [DataRequired("Write something")])
@@ -37,7 +39,7 @@ class BlogForm(FlaskForm):
     photo2 = FileField("Photo 3", [FileAllowed(PHOTOS, "File must be an image")])
     
     youtube = StringField("Link to youtube video (optional)")
-    submit = SubmitField("submit")
+    submit = SubmitField("Post")
 
 class ElevateForm(FlaskForm):
     password = PasswordField("Secret Code", [DataRequired()])
@@ -46,4 +48,4 @@ class ElevateForm(FlaskForm):
 class RequestForm(FlaskForm):
     time = StringField("Time, date, and timezone", [DataRequired()])
     message = TextAreaField("Message", [DataRequired()])
-    submit = SubmitField("Submit")
+    submit = SubmitField("Submit Request")

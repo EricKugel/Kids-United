@@ -1,0 +1,93 @@
+p {
+  margin: 0;
+}
+
+#wrapper {
+  width: 700px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
+#create {
+  display: block;
+  background-color: #bfcca4;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin: auto;
+  text-align: center;
+  line-height: 50px;
+  font-size: 30px;
+  font-weight: bold;
+  user-select: none;
+  margin-bottom: 25px;
+}
+
+#create:hover {
+  box-shadow: 0 0 7px gray;
+  cursor: pointer;
+}
+
+.blog {
+  border: 3px dashed black;
+  margin-bottom: 25px;
+}
+
+.delete {
+  width: 25px;
+  height: 25px;
+  float: right;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.top {
+  background-color: #f1c391;
+  padding: 20px;
+}
+
+.person_wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+#logo_large,
+#logo_large object,
+#logo_large object svg {
+  user-select: none;
+}
+
+.name {
+  font-size: 20px;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #bfcca4;
+  padding: 20px;
+  gap: 25px;
+}
+
+.photos {
+  user-select: none;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+.youtube {
+  user-select: none;
+}
+
+.photo_thing {
+  width: 180px;
+  height: auto;
+}
+
+.photo_thing:hover {
+  box-shadow: 0 0 7px gray;
+  cursor: pointer;
+}

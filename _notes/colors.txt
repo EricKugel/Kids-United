@@ -1,0 +1,3 @@
+orange: #f1c391
+green: #bfcca4
+pink: #f2437a / #b92b58

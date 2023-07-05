@@ -1,7 +1,11 @@
 {% extends "layout.jinja2" %}
 
 {% block content %}
-  <div>
+<br/><br/><br/><br/><br/>
+
+<link rel = "stylesheet" href = "/static/styles/forms.css"/>
+  <div id = "wrapper">
+    <div>
     {% for message in get_flashed_messages() %}
       <div class="alert alert-warning">
         <button
@@ -20,7 +24,7 @@
       {{ form.csrf_token }}
 
       <fieldset>
-        {{ form.name.label }}
+        {{ form.name.label }}<br/>
         {{ form.name }}
         {% if form.name.errors %}
           <ul class="errors">
@@ -31,7 +35,7 @@
       </fieldset>
 
       <fieldset class="email">
-        {{ form.email.label }}
+        {{ form.email.label }}<br/>
         {{ form.email }}
         {% if form.email.errors %}
           <ul class="errors">
@@ -42,7 +46,7 @@
       </fieldset>
 
       <fieldset class="password">
-        {{ form.password.label }}
+        {{ form.password.label }}<br/>
         {{ form.password }}
         {% if form.password.errors %}
           <ul class="errors">
@@ -53,7 +57,7 @@
       </fieldset>
 
       <fieldset class="confirm">
-        {{ form.confirm.label }}
+        {{ form.confirm.label }}<br/>
         {{ form.confirm }}
         {% if form.confirm.errors %}
           <ul class="errors">
@@ -64,11 +68,22 @@
       </fieldset>
 
       <fieldset>
-        {{ form.country.label }}
+        {{ form.country.label }}<br/>
         {{ form.country }}
         {% if form.country.errors %}
           <ul class="errors">
             {% for error in form.country.errors %}
+              <li class = "error">{{ error }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </fieldset>
+
+      <fieldset>
+        {{ form.pronouns.label }}<br/>
+        {{ form.pronouns }}
+        {% if form.pronouns.errors %}
+          <ul class="errors">
+            {% for error in form.pronouns.errors %}
               <li class = "error">{{ error }}</li>{% endfor %}
           </ul>
         {% endif %}
@@ -87,5 +102,7 @@
       </div>
     </div>
   </div>
-
+  </div>
+  
+<br/><br/><br/><br/><br/><br/><br/>
 {% endblock %}

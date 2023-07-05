@@ -1,25 +1,62 @@
 {% extends "layout.jinja2" %}
 {% block content %}
-<div class = "section">
-    <div class = "slide_left">
-        <h1 class = "heading_text">About Us</h1>
-        <p class = "body_text">We are Kids United! We are a group. We do fun group activities. We are also an internation non-profit organization! We love to organize internationally without creating profit. All donations are tax-exempt so you can support our organization in organizing internationally!</p>
+<link rel = "stylesheet" href = "/static/styles/about_us.css"/>
+
+<div id = "wrapper">
+    <div id = "logo_large">
+        <object id = "logo_image_large" data = "/static/lib/logo.svg"></object>
     </div>
-</div>
-<div class = "section">
-    <div class = "slide_right">
-        <h1 class = "heading_text">What do we do?</h1>
-        <p class = "body_text">
-            I'm not really sure. You'll have to ask one of our fabulous directors! They specialize in directing the organization. They also organize the directions. They do it all internationally, not for profit. This kind of international non-profit directional organization requires strong leadership and dedication to the organization! They are organized directors directing the organization.
-        </p>
+
+    <div class = "section">
+        <div class = "yup">
+            <div class = "heading_text">About Us</div>
+            <div class = "body_text">Kids United International is a youth-led 501c3 non-profit organization which strives to amplify global connectivity and extend peer support on an international scale. Our mission encompasses raising awareness of and addressing worldly affairs while simultaneously working to help better mental health efforts through the nurturing of relationships and fostering of personal growth.</div>
+        </div>
     </div>
-</div>
-<div class = "section">
-    <div class = "slide_left">
-        <h1 class = "heading_text">How do we do it?</h1>
-        <p class = "body_text">
-            The hardest part of creating an international non-profit organization is figuring out the logistics of organizing internationally without making profit. Thankfully, our team of directors direct the logistics of organizing on an international scale. The directors organize the directions and direct the organization, across the world, without making money. Donations will help us organize internationally!
-        </p>
+    <div class = "section">
+        <div class = "yup">
+            <div class = "body_text">
+                Originating from a humble volunteer effort in Georgia, Kids United International (KUI) has rapidly evolved. Collaborating with politicians in several nations, we have successfully facilitated aid to children in dire circumstances across the globe. From Africa to Ukraine to the United States, KUI has organized and hosted impactful drives, combatting issues such as period poverty, hunger, and more. We provide a nurturing space characterized by inclusivity, knowledge-sharing, and tranquility, enabling users to relax and immerse themselves in the splendors of different cultures while empowering one another through empathetic friendships.
+            </div>
+            <div class = "heading_text">What do we do?</div>
+        </div>
+    </div>
+    <div class = "section">
+        <div class = "yup">
+            <div class = "heading_text">How do we do it?</div>
+            <div class = "body_text">
+                Kids United International (KUI) embraces a multifaceted approach to attain its success, employing a variety of strategies rather than depending on a single method. To get involved, we invite you to explore our remarkable website. Connect with individuals from every corner of the world on our awe-inspiring Get to Know Me page, take a momentary respite for mental well-being on our rejuvenating Take a Breath tab, or scroll through user-generated blogs on our Blogs page to uncover fascinating insights into users’ daily lives, passions, and their countries. Don’t forget to stay updated on our latest and upcoming projects to learn how you can contribute to help making a difference by referencing the Upcoming Projects tab.
+            </div>
+        </div>
+    </div>
+
+    <div id = "meet_wrapper">
+        <div id = "meet_heading">Meet Our Directors</div>
+        <div id = "directors">
+            {% for director in directors %}
+                <div id = "{{url_for('get_to_know_admin', id = director.user_id)}}" class = "director" onclick = "redirect(this)">
+                    <div class = "top">
+                        <img width = '200px' height = '200px' src = "{{ director.photo }}" />
+                    </div>
+                    <div class = "bottom">
+                        <div class = "name">
+                            {{ director.name }}
+                        </div>
+                        <div class = "title">
+                            {{ director.title }}
+                        </div>
+                        <div class = "email">
+                            {{ director.email }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <script>
+            function redirect(obj) {
+                window.location.href = obj.id;
+            }
+        </script>
     </div>
 </div>
 {% endblock %}

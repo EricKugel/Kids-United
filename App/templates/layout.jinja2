@@ -2,27 +2,31 @@
 <html>
     <head>
         <title>Kids United</title>
+        {# <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'> #}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Bowlby+One&family=Calistoga&family=Grandstander&family=Squada+One&display=swap" rel="stylesheet">
         <link rel = "stylesheet" href = "/static/styles.css"/>
+        <link rel="icon" type="image/x-icon" href="/static/lib/favicon.ico">
     </head>
     <body>
+        <div id = "logo">
+            <object id = "logo_image" data = "/static/lib/logo.svg"></object>
+        </div>
         <header id = "header">
-            <div id = "logo">
-                <object id = "logo_image" data = "/static/lib/logo.svg"></object>
-            </div>
             <nav id = "nav">
-                <a class = "nav_link" href = "{{ url_for('upcoming_projects') }}">Upcoming Projects</a>
-                <a class = "nav_link" href = "{{ url_for('take_a_breath') }}">Take a Breath</a>
-                <a class = "nav_link" href = "{{ url_for('get_to_know_everybody') }}">Get to Know Me</a>
-                <a class = "nav_link" href = "{{ url_for('blog') }}">Blog</a>
-                <a class = "nav_link" href = "{{ url_for('get_index') }}">About Us</a>
+                <a class = "nav_link" href = "{{ url_for('get_index') }}"><div class = "nav_link_text">About Us</div></a>
+                <a class = "nav_link" href = "{{ url_for('get_to_know_everybody') }}"><div class = "nav_link_text">Get to Know Me</div></a>
+                <a class = "nav_link" href = "{{ url_for('blog') }}"><div class = "nav_link_text">Blog</div></a>
+                <a class = "nav_link" href = "{{ url_for('take_a_breath') }}"><div class = "nav_link_text">Take a Breath</div></a>
+                <a class = "nav_link" href = "{{ url_for('upcoming_projects') }}"><div class = "nav_link_text">Upcoming Projects</div></a>
             </nav>
         </header>
         <div id = "content">
-        <br><br><br><br><br>
             {% block content %}{% endblock %}
         </div>
         <footer>
-            Signed in as {{ current_user.name }} | <a href = "{{ url_for('logout') }}">Logout</a> {% if session['admin'] %}| <a href = "{{ url_for('admin') }}"><b style = "color: red">ADMIN</b><a>{% endif %}
+            {% if current_user.name %}Signed in as {{ current_user.name }}{% else %}Not logged in{% endif %} | <a href = "{{ url_for('logout') }}">{% if current_user.name %}Log out{% else %}Log in{% endif %}</a> {% if current_user.admin %}| <a href = "{{ url_for('admin') }}"><b style = "color: red">ADMIN</b><a>{% endif %}
             <p>Website by Eric Kugel</p>
         </footer>
     </body>
