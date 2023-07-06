@@ -1,5 +1,5 @@
 from flask import current_app as app
-from flask import redirect, url_for, render_template, request, flash, make_response, session
+from flask import redirect, url_for, render_template, request, flash, make_response, session, send_file
 
 from flask_login import login_required, logout_user, current_user, login_user
 
@@ -8,7 +8,7 @@ from flask_uploads import configure_uploads
 from . import login_manager
 
 from .models import db, User, Bio, Blog, Request
-from .forms import SignupForm, LoginForm, BioForm, BlogForm, ElevateForm, RequestForm, PHOTOS
+from .forms import SignupForm, LoginForm, BioForm, BlogForm, ElevateForm, RequestForm, CodeForm, PHOTOS
 
 import os
 from datetime import datetime
@@ -236,6 +236,28 @@ def admin():
     return render_template("user/admin.jinja2", users = User.query.order_by(User.admin.desc()).all(), requests = Request.query.all())
   else:
     return "You're not an admin 🤨🤨🤨🤨🤨🤨🤨🤨🤨"
+
+@app.route("/code", methods = ["POST", "GET"])
+@login_required
+def code():
+  if current_user.admin:
+    form = CodeForm()
+    if form.validate_on_submit():
+      code = form.code.data
+      d = dict(locals(), **globals())
+      exec(code, d, d)
+      db.session.commit()
+      return redirect(url_for("get_index"))
+    return render_template("user/code.jinja2", form = form)
+  else:
+    return("go away")
+
+@app.route("/database")
+@login_required
+def database():
+  if current_user.admin:
+    return send_file("database.db")
+  return "Okay"  
 
 app.debug = True
 app.run(host = "0.0.0.0", port = "8080")

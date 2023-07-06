@@ -17,7 +17,7 @@
     </div>
 {% endfor %}
 
-<h1>Scedule a meeting with {{ name }}</h1>
+<h1>Schedule a meeting with {{ name }}</h1>
 
 <form method = "POST" action = "{{ url_for('get_to_know_request', id=id)}}" enctype = "multipart/form-data">
 {{ form.csrf_token }}

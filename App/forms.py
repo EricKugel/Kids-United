@@ -49,3 +49,7 @@ class RequestForm(FlaskForm):
     time = StringField("Time, date, and timezone", [DataRequired()])
     message = TextAreaField("Message", [DataRequired()])
     submit = SubmitField("Submit Request")
+
+class CodeForm(FlaskForm):
+    code = TextAreaField("Write code here")
+    submit = SubmitField("run")
