@@ -12,6 +12,7 @@ from .forms import SignupForm, LoginForm, BioForm, BlogForm, ElevateForm, Reques
 
 import os
 from datetime import datetime
+import zipfile
 
 UPLOAD_DEST = os.path.abspath(os.path.dirname(__file__))
 
@@ -256,7 +257,11 @@ def code():
 @login_required
 def database():
   if current_user.admin:
-    return send_file("database.db")
+    with zipfile.ZipFile("App/data.zip", "w") as zip:
+      zip.write("App/database.db")
+      for file in os.listdir("App/upload"):
+        zip.write("App/upload/" + file)
+    return send_file("data.zip")
   return "Okay"  
 
 app.debug = True
