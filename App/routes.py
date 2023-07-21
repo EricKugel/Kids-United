@@ -264,5 +264,13 @@ def database():
     return send_file("data.zip")
   return "Okay"  
 
+@app.route("/privacy-policy")
+def privacy_policy():
+  return render_template("user/privacy_policy.jinja2")
+
+@app.route("/terms-and-conditions")
+def terms_and_conditions():
+  return render_template("user/terms_and_conditions.jinja2")
+
 app.debug = True
 app.run(host = "0.0.0.0", port = "8080")

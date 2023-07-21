@@ -27,6 +27,7 @@
         </div>
         <footer>
             {% if current_user.name %}Signed in as {{ current_user.name }}{% else %}Not logged in{% endif %} | <a href = "{{ url_for('logout') }}">{% if current_user.name %}Log out{% else %}Log in{% endif %}</a> {% if current_user.admin %}| <a href = "{{ url_for('admin') }}"><b style = "color: red">ADMIN</b><a>{% endif %}
+            <p><a href = "{{ url_for('privacy_policy') }}">Privacy Policy</a> | <a href = "{{ url_for('terms_and_conditions') }}">Terms and Conditions</a></p>
             <p>Website by Eric Kugel</p>
         </footer>
     </body>
